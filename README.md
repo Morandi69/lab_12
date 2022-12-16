@@ -34,7 +34,7 @@
         console.log("Сервер ожидает подключения...");
     });
 ### INDEX.HTML
-    <!DOCTYPE html>
+        <!DOCTYPE html>
     <html>
     <head>
         <meta charset="utf-8" />
@@ -73,7 +73,8 @@
         <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
         <script>
             //считываем json файл с альбомами
-            fetch('./jsons/allalbums.json')
+            //fetch('./jsons/allalbums.json')
+            fetch('https://jsonplaceholder.typicode.com/albums')
             .then((response) => {
                 return response.json();
             })
@@ -81,10 +82,10 @@
                 //добавление альбомов в выпадающий список
                 var select = document.getElementById("selectNumber"); 
                 for(var i = 0; i < data.length; i++) {
-                    var opt = data[i];
+                    var opt = data[i].title;
                     var el = document.createElement("option");
-                    el.textContent = opt;
-                    el.value = opt;
+                    el.textContent = data[i].title;
+                    el.value = data[i].id;
                     select.appendChild(el);
                     
                 }
@@ -99,7 +100,8 @@
             //вывод картинок
             function showImage(album){
                 let gallery=document.getElementById("gallery");
-                fetch('./jsons/'+album+'.json')
+                //fetch('./jsons/'+album+'.json')
+                fetch('https://jsonplaceholder.typicode.com/photos?albumId='+album)
                 .then((response) => {
                     return response.json();
                 })
@@ -107,8 +109,10 @@
                     for (let i = 0; i < data.length; i++) {
                         const image=document.createElement("img");
                         const a=document.createElement('a');
-                        a.href='./gallery/'+album+'/'+data[i];
-                        image.src='./gallery/'+$('#selectNumber').val()+'/'+data[i];
+                        //a.href='./gallery/'+album+'/'+data[i];
+                        a.href=data[i].url;
+                        //image.src='./gallery/'+$('#selectNumber').val()+'/'+data[i];
+                        image.src=data[i].thumbnailUrl;
                         image.className="rounded";
                         a.append(image);
                         gallery.append(a);
@@ -117,7 +121,7 @@
             }
             
         </script>
-</body>
-</html>
+    </body>
+    </html>
 
 - - -
